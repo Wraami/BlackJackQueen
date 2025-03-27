@@ -15,7 +15,7 @@ namespace BlackJackQueen.Models
 
         public override string ToString()
         {
-            return $"{Suit} of {Rank}";
+            return $"{Rank} of {Suit}";
         }
 
     }
