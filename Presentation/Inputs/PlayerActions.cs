@@ -1,12 +1,13 @@
-﻿using BlackJackQueen.Services;
+﻿using BlackJackQueen.Interfaces.Actions;
+using BlackJackQueen.Services;
 
 namespace BlackJackQueen.Presentation.Inputs
 {
-    public class GameActions
+    public class PlayerActions : IPlayerActions
     {
         private readonly GameService _gameService;
 
-        public GameActions(GameService gameService)
+        public PlayerActions(GameService gameService)
         {
             _gameService = gameService;
         }
@@ -25,24 +26,9 @@ namespace BlackJackQueen.Presentation.Inputs
             Console.WriteLine($"Player hit on hand {handIndex + 1}: {handToHit.GetHandDisplay()}");
         }
 
-        public void PlayerStands()
+        public void PlayerStands(int handIndex)
         {
-            Console.WriteLine("Player stands");
-        }
-
-        public void DealerTurn()
-        {
-            var dealerHand = _gameService.GetDealerHand();
-            int dealerTotalValue = dealerHand.GetTotalValueOfHand();
-
-            if (dealerTotalValue < 17)
-            {
-                Console.WriteLine("Dealer Hits!");
-                _gameService.Hit(dealerHand);
-                dealerTotalValue = dealerHand.GetTotalValueOfHand();
-            }
-
-            Console.WriteLine("Dealer stands");
+            _gameService.Stand();
         }
     }
 }
