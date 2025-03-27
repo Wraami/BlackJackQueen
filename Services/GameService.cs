@@ -7,14 +7,26 @@ namespace BlackJackQueen.Services
     {
         private List<Hand> _playerHands;
         private Hand _dealerHand;
-        private readonly GameActions _gameActions;
+        private readonly DealerActions _gameActions;
 
         public GameService()
         {
-            _playerHands = new List<Hand>();
+            _playerHands = new List<Hand> { new Hand() };
             _dealerHand = new Hand();
-            _gameActions = new GameActions(this);
+            _gameActions = new DealerActions(this);
 
+        }
+
+        public void DealInitialHand()
+        {
+            foreach (var hand in _playerHands)
+            {
+                DealCards(hand, 2);
+                Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.GetTotalValueOfHand()})");
+            }
+
+            DealCards(_dealerHand, 2);
+            Console.WriteLine($"Dealer Hand: {_dealerHand.GetHandDisplay()}");
         }
 
         public void DealCards(Hand hands, int? count)
@@ -30,24 +42,21 @@ namespace BlackJackQueen.Services
 
         }
 
-        public void DealInitialHand()
-        {
-            foreach (var hand in _playerHands)
-            {
-                DealCards(hand, 2);
-
-            }
-            DealCards(_dealerHand, 2);
-        }
-
         //TODO: actually implement standing and hitting logic in full for differing player and dealer case.
         public void Hit(Hand hand)
         {
             DealCards(hand, 1);
         }
 
+        public void Stand()
+        {
+            Console.WriteLine("Player stands");
+        }
+
         public List<Hand> GetPlayerHands() => _playerHands;
         public Hand GetDealerHand() => _dealerHand;
+
+        //TODO: reset game state somewhere here in a new method.
 
     }
 }
