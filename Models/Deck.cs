@@ -4,7 +4,7 @@ namespace BlackJackQueen.Models
 {
     public class Deck
     {
-        private List<CardModel>? _cards { get; set; }
+        private readonly List<CardModel> _cards;
 
         public Deck()
         {
@@ -36,7 +36,7 @@ namespace BlackJackQueen.Models
             for (int i = 0; i < _cards?.Count; i++)
             {
                 int j = rng.Next(_cards.Count);
-                var tempCard = _cards[i];
+                CardModel tempCard = _cards[i];
                 _cards[i] = _cards[j];
                 _cards[j] = tempCard;
             }
@@ -45,7 +45,10 @@ namespace BlackJackQueen.Models
 
         public CardModel DrawCard()
         {
-            if (_cards.Count == 0) throw new InvalidOperationException("Deck is empty.");
+            if (_cards.Count == 0)
+            {
+                throw new InvalidOperationException("Deck is empty.");
+            }
             var card = _cards[0];
             _cards.RemoveAt(0);
             return card;
