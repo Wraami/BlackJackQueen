@@ -2,27 +2,30 @@
 
 namespace BlackJackQueen.Models
 {
-    //TODO: Add logic for ranks and suits within a deck.
     public class Deck
     {
-        public int CardsLeft { get; set; }
-        public List<CardModel>? Cards { get; set; }
+        private List<CardModel>? _cards { get; set; }
 
         public Deck()
         {
-            Cards = new List<CardModel>();
-            GenerateDeck();
+            _cards = new List<CardModel>();
+            //TODO: allow custom specifying of generating decks at users discretion
+            GenerateDeck(1);
         }
 
-        private void GenerateDeck()
+        private void GenerateDeck(int desiredCount = 1)
         {
-            foreach (Suit suit in Enum.GetValues<Suit>())
+            for (int i = 0; i < desiredCount; i++)
             {
-                foreach (Rank rank in Enum.GetValues<Rank>())
+                foreach (Suit suit in Enum.GetValues<Suit>())
                 {
-                    Cards.Add(new CardModel(suit, rank));
+                    foreach (Rank rank in Enum.GetValues<Rank>())
+                    {
+                        _cards.Add(new CardModel(suit, rank));
+                    }
                 }
             }
+            Shuffle();
         }
 
         //TODO: human hand shuffle logic? how would this be accounted for? migrate away from use of random :)
@@ -30,14 +33,22 @@ namespace BlackJackQueen.Models
         {
             var rng = new Random();
 
-            for (int i = 0; i < Cards.Count; i++)
+            for (int i = 0; i < _cards?.Count; i++)
             {
-                int j = rng.Next(Cards.Count);
-                var tempCard = Cards[i];
-                Cards[i] = Cards[j];
-                Cards[j] = tempCard;
+                int j = rng.Next(_cards.Count);
+                var tempCard = _cards[i];
+                _cards[i] = _cards[j];
+                _cards[j] = tempCard;
             }
 
+        }
+
+        public CardModel DrawCard()
+        {
+            if (_cards.Count == 0) throw new InvalidOperationException("Deck is empty.");
+            var card = _cards[0];
+            _cards.RemoveAt(0);
+            return card;
         }
     }
 }
