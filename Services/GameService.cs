@@ -1,4 +1,5 @@
 ﻿using BlackJackQueen.Models;
+using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Presentation.Inputs;
 
 namespace BlackJackQueen.Services
@@ -48,14 +49,23 @@ namespace BlackJackQueen.Services
             DealCards(hand, 1);
         }
 
-        public void Stand()
+        public void Stand(Hand? hand = null)
         {
-            Console.WriteLine("Player stands");
+            Console.WriteLine(UIMessages.PlayerStandText);
+            if (hand != null)
+            {
+                hand.IsStanding = true;
+            }
         }
 
         public List<Hand> GetPlayerHands() => _playerHands;
         public Hand GetDealerHand() => _dealerHand;
 
+        public void ResetGame()
+        {
+            _playerHands.Clear();
+            _dealerHand.cards.Clear();
+        }
         //TODO: reset game state somewhere here in a new method.
 
     }

@@ -3,6 +3,8 @@
     public class Hand
     {
         public List<CardModel> cards { get; private set; }
+        public bool IsStanding { get; set; }
+        public bool IsDealerHand { get; set; }
 
         public Hand()
         {

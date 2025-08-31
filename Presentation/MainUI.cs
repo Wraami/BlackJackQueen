@@ -1,5 +1,8 @@
-﻿using BlackJackQueen.Presentation.Inputs;
+﻿using BlackJackQueen.Models.Enums;
+using BlackJackQueen.Presentation.Constants;
+using BlackJackQueen.Presentation.Inputs;
 using BlackJackQueen.Presentation.Output;
+using BlackJackQueen.Presentation.Parsers;
 using BlackJackQueen.Services;
 
 namespace BlackJackQueen.Presentation
@@ -21,74 +24,73 @@ namespace BlackJackQueen.Presentation
 
         public void Start()
         {
-            SelectExperienceLevel();
+            Console.WriteLine(UIMessages.ExperienceSelectText);
+            Console.WriteLine("1 - Casual Player");
+            Console.WriteLine("2 - Card Counter");
+
+            string experienceInput = Console.ReadLine();
+            PlayerInputParser.ParseExperienceLevel(experienceInput);
 
             //DEALER NEVER GETS A BREAK >:) 
             _gameService.DealInitialHand();
 
 
-            foreach (var hand in _gameService.GetPlayerHands())
+            foreach (var hand in _gameService.GetPlayerHands().ToList())
             {
                 bool playerTurn = true;
 
                 while (playerTurn)
                 {
+                    Console.WriteLine(UIMessages.PlayerInputPrompt);
+
                     string input = Console.ReadLine()?.ToUpperInvariant();
+                    var action = PlayerInputParser.ParseGameInputs(input);
 
-
-                    switch (input)
+                    switch (action)
                     {
-                        case "H":
+                        case PlayerInputType.Hit:
                             _playerActions.PlayerHits(_gameService.GetPlayerHands().IndexOf(hand));
-                            if (hand.GetTotalValueOfHand() > 21)
+                            if (hand.GetTotalValueOfHand().IsBust)
                             {
+                                Console.WriteLine(UIMessages.BustMessageText);
                                 playerTurn = false;
+                                _gameService.ResetGame();
                             }
                             break;
 
-                        case "S":
+                        case PlayerInputType.Double:
+                            //TODO: validation if the player can actually double their hand or not
+                            break;
+                        case PlayerInputType.Stand:
+                            //TODO: implement standing by index of hand
                             _playerActions.PlayerStands(0);
-                            _dealerActions.DealerTurn();  // Let dealer play after player stands.
+                            // Let dealer play after player stands (we should probably have a tracker for the gamestate so we can early terminate and not even need to access this method, maybe by just checking totals if the dealers already bust).
+                            _dealerActions.DealerTurn();
                             break;
 
-                        case "Q":
-                            Console.WriteLine("Quitting this blackjack hand!");
+                        case PlayerInputType.Quit:
+                            Console.WriteLine(UIMessages.QuitText);
+                            _gameService.ResetGame();
                             playerTurn = false;
                             break;
 
+                        case PlayerInputType.ViewRules:
+                            Console.WriteLine("TODO: RULES RENDERING");
+                            //TODO
+                            break;
+
+                        case PlayerInputType.Settings:
+                            Console.WriteLine("TODO: Settings");
+                            //here we can render the custom input of a payout.
+                            break;
+
                         default:
-                            Console.WriteLine("Invalid input, please enter H, S, or Q.");
+                            Console.WriteLine(UIMessages.InvalidInputText);
                             continue;
                     }
                 }
             }
-            _dealerActions.DealerTurn();
-        }
 
-        private void SelectExperienceLevel()
-        {
-            Console.WriteLine("Select your experience you want to use with blackjack:");
-            Console.WriteLine("1. Casual Player");
-            Console.WriteLine("2. Card Counter");
-
-            while (true)
-            {
-                string input = Console.ReadLine();
-                if (input == "1")
-                {
-                    DisplayOptions.DisplayStarterOptions();
-                    return;
-                }
-                else if (input == "2")
-                {
-                    DisplayOptions.DisplayCounterOptions();
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input, put a valid number!");
-                }
-            }
         }
     }
 }
