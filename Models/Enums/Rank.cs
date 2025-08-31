@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlackJackQueen.Models.Enums
+﻿namespace BlackJackQueen.Models.Enums
 {
     public enum Rank
     {
@@ -17,9 +11,9 @@ namespace BlackJackQueen.Models.Enums
         Eight,
         Nine,
         Ten,
-        Jack,
-        Queen,
-        King,
+        Jack = 10,
+        Queen = 10,
+        King = 10,
         Ace
     }
 }
