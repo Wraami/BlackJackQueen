@@ -1,4 +1,6 @@
 ﻿using BlackJackQueen.Interfaces.Actions;
+using BlackJackQueen.Models;
+using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Services;
 
 namespace BlackJackQueen.Presentation.Inputs
@@ -15,16 +17,53 @@ namespace BlackJackQueen.Presentation.Inputs
         public void DealerTurn()
         {
             var dealerHand = _gameService.GetDealerHand();
-            int dealerTotalValue = dealerHand.GetTotalValueOfHand();
+            int dealerTotalValue = dealerHand.GetTotalValueOfHand().Total;
+            Console.WriteLine($"dealer currently has {dealerTotalValue}");
+            var playerHands = _gameService.GetPlayerHands();
 
-            if (dealerTotalValue < 17)
+            while (dealerTotalValue < GameConstants.DealerStandValue)
             {
-                Console.WriteLine("Dealer Hits!");
+                Console.WriteLine(UIMessages.DealerHitText);
                 _gameService.Hit(dealerHand);
-                dealerTotalValue = dealerHand.GetTotalValueOfHand();
+                dealerTotalValue = dealerHand.GetTotalValueOfHand().Total;
+                Console.WriteLine($"Dealer now has {dealerTotalValue}");
+                Console.WriteLine($"Dealers hand: {dealerHand.GetHandDisplay()}");
             }
 
-            Console.WriteLine("Dealer stands");
+            if (dealerTotalValue == GameConstants.DealerStandValue)
+            {
+                Console.WriteLine(UIMessages.DealerStandText);
+                return;
+            }
+
+            foreach (var hand in playerHands)
+            {
+                int playerTotal = hand.GetTotalValueOfHand().Total;
+                string gameResult;
+
+                if (playerTotal > GameConstants.Blackjack)
+                {
+                    gameResult = "Player busts! Dealer wins :/.";
+                }
+                else if (dealerTotalValue > GameConstants.Blackjack)
+                {
+                    gameResult = "Dealer busts! Player wins.";
+                }
+                else if (dealerTotalValue > playerTotal)
+                {
+                    gameResult = "Dealer wins.";
+                }
+                else if (dealerTotalValue < playerTotal)
+                {
+                    gameResult = "Player wins.";
+                }
+                else
+                {
+                    gameResult = "Push (tie).";
+                }
+
+                Console.WriteLine(gameResult);
+            }
         }
     }
 }

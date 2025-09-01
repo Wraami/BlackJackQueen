@@ -9,13 +9,14 @@ namespace BlackJackQueen.Services
         private List<Hand> _playerHands;
         private Hand _dealerHand;
         private readonly DealerActions _gameActions;
+        private readonly Deck _deck;
 
         public GameService()
         {
             _playerHands = new List<Hand> { new Hand() };
             _dealerHand = new Hand();
             _gameActions = new DealerActions(this);
-
+            _deck = new Deck();
         }
 
         public void DealInitialHand()
@@ -23,19 +24,19 @@ namespace BlackJackQueen.Services
             foreach (var hand in _playerHands)
             {
                 DealCards(hand, 2);
-                Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.GetTotalValueOfHand()})");
+                Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.GetTotalValueOfHand().Total})");
             }
 
             DealCards(_dealerHand, 2);
-            Console.WriteLine($"Dealer Hand: {_dealerHand.GetHandDisplay()}");
+            Console.WriteLine($"Dealer shows: {_dealerHand.GetHandDisplay().Split(',')[0]}");
         }
 
         public void DealCards(Hand hands, int? count)
         {
             for (int i = 0; i < count; i++)
             {
-                //TODO: logic, draw a card from a deck / deck in a shoe.
-
+                var drawnCard = _deck.DrawCard();
+                hands.AddCard(drawnCard);
                 CardModel drawnCard = new CardModel(Models.Enums.Suit.Hearts, Models.Enums.Rank.Ace);
 
                 hands.AddCard(drawnCard);
