@@ -16,12 +16,7 @@
             cards.Add(card);
         }
 
-        public int GetCardCount()
-        {
-            return cards.Count();
-        }
-
-        public int GetTotalValueOfHand()
+        public HandValue GetTotalValueOfHand()
         {
             int total = 0;
             int aceCount = 0;
@@ -46,7 +41,11 @@
                 aceCount--;
             }
 
-            return total;
+            bool isSoft = aceCount > 0;
+            bool isBust = total > 21;
+            bool isBlackjack = total == 21 && cards.Count == 2;
+
+            return new HandValue(total, isSoft, isBust, isBlackjack);
         }
 
         //show the cards in the hand to the player.
