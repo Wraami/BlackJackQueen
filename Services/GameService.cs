@@ -13,8 +13,12 @@ namespace BlackJackQueen.Services
 
         public GameService()
         {
+
             _playerHands = new List<Hand> { new Hand() };
-            _dealerHand = new Hand();
+            _dealerHand = new Hand()
+            {
+                IsDealerHand = true
+            };
             _gameActions = new DealerActions(this);
             _deck = new Deck();
         }
@@ -37,11 +41,23 @@ namespace BlackJackQueen.Services
             {
                 var drawnCard = _deck.DrawCard();
                 hands.AddCard(drawnCard);
-                CardModel drawnCard = new CardModel(Models.Enums.Suit.Hearts, Models.Enums.Rank.Ace);
+                //we need to have something to track if its a dealer hand or a regular hand beyond the bool prop, maybe IsInitialDeal via a game state?
+                if (hands.IsDealerHand)
+                {
+                    if (hands.cards.Count() == 2)
+                    {
+                        Console.WriteLine($"Dealt [HIDDEN CARD] to dealer's hand");
+                        continue;
 
-                hands.AddCard(drawnCard);
+                    }
+                    Console.WriteLine($"Dealt {drawnCard} to dealer's hand");
+
+                }
+                else
+                {
+                    Console.WriteLine($"Dealt {drawnCard} to player's hand");
+                }
             }
-
         }
 
         //TODO: actually implement standing and hitting logic in full for differing player and dealer case.
@@ -67,7 +83,6 @@ namespace BlackJackQueen.Services
             _playerHands.Clear();
             _dealerHand.cards.Clear();
         }
-        //TODO: reset game state somewhere here in a new method.
 
     }
 }
