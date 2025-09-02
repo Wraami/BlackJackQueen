@@ -28,7 +28,7 @@ namespace BlackJackQueen.Services
             foreach (var hand in _playerHands)
             {
                 DealCards(hand, 2);
-                Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.GetTotalValueOfHand().Total})");
+                Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.TotalValue})");
             }
 
             DealCards(_dealerHand, 2);

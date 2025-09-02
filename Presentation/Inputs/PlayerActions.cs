@@ -24,7 +24,7 @@ namespace BlackJackQueen.Presentation.Inputs
             var handToHit = playerHand[handIndex];
             Console.WriteLine($"Player hit on hand {handIndex + 1}: Currently hand shows: ({handToHit.GetHandDisplay()})");
             _gameService.Hit(handToHit);
-            Console.WriteLine($"New player Hand: {handToHit.GetHandDisplay()} (Total: {handToHit.GetTotalValueOfHand().Total})");
+            Console.WriteLine($"New player Hand: {handToHit.GetHandDisplay()} (Total: {handToHit.TotalValue})");
         }
 
         public void PlayerStands(int handIndex)

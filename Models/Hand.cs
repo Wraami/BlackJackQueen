@@ -5,6 +5,10 @@
         public List<CardModel> cards { get; private set; }
         public bool IsStanding { get; set; }
         public bool IsDealerHand { get; set; }
+        public bool IsBust => GetTotalValueOfHand().IsBust;
+        public bool IsSoft => GetTotalValueOfHand().IsSoft;
+        public bool IsBlackjack => GetTotalValueOfHand().IsBlackjack;
+        public int TotalValue => GetTotalValueOfHand().Total;
 
         public Hand()
         {

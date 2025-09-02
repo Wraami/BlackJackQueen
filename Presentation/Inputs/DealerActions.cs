@@ -17,7 +17,7 @@ namespace BlackJackQueen.Presentation.Inputs
         public void DealerTurn()
         {
             var dealerHand = _gameService.GetDealerHand();
-            int dealerTotalValue = dealerHand.GetTotalValueOfHand().Total;
+            int dealerTotalValue = dealerHand.TotalValue;
             Console.WriteLine($"dealer currently has {dealerTotalValue}");
             var playerHands = _gameService.GetPlayerHands();
 
@@ -25,7 +25,7 @@ namespace BlackJackQueen.Presentation.Inputs
             {
                 Console.WriteLine(UIMessages.DealerHitText);
                 _gameService.Hit(dealerHand);
-                dealerTotalValue = dealerHand.GetTotalValueOfHand().Total;
+                dealerTotalValue = dealerHand.TotalValue;
                 Console.WriteLine($"Dealer now has {dealerTotalValue}");
                 Console.WriteLine($"Dealers hand: {dealerHand.GetHandDisplay()}");
             }
@@ -38,7 +38,7 @@ namespace BlackJackQueen.Presentation.Inputs
 
             foreach (var hand in playerHands)
             {
-                int playerTotal = hand.GetTotalValueOfHand().Total;
+                int playerTotal = hand.TotalValue;
                 string gameResult;
 
                 if (playerTotal > GameConstants.Blackjack)
