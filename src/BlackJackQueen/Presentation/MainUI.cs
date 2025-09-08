@@ -31,6 +31,9 @@ namespace BlackJackQueen.Presentation
             string experienceInput = Console.ReadLine();
             PlayerInputParser.ParseExperienceLevel(experienceInput);
 
+            //Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
+
+            Console.WriteLine(UIMessages.NewGameText);
             //DEALER NEVER GETS A BREAK >:) 
             _gameService.DealInitialHand();
 
@@ -41,6 +44,12 @@ namespace BlackJackQueen.Presentation
 
                 while (playerTurn)
                 {
+                    //TODO: refactor this so we doesn't need to check every iteration.
+                    if (hand.CanSplit())
+                    {
+                        Console.WriteLine(UIMessages.PlayerSplitPrompt);
+                    }
+
                     Console.WriteLine(UIMessages.PlayerInputPrompt);
 
                     string input = Console.ReadLine()?.ToUpperInvariant();
@@ -50,7 +59,7 @@ namespace BlackJackQueen.Presentation
                     {
                         case PlayerInputType.Hit:
                             _playerActions.PlayerHits(_gameService.GetPlayerHands().IndexOf(hand));
-                            if (hand.GetTotalValueOfHand().IsBust)
+                            if (hand.IsBust)
                             {
                                 Console.WriteLine(UIMessages.BustMessageText);
                                 playerTurn = false;
@@ -60,9 +69,20 @@ namespace BlackJackQueen.Presentation
 
                         case PlayerInputType.Double:
                             //TODO: validation if the player can actually double their hand or not
+
                             break;
+
+                        case PlayerInputType.Split:
+                            if (!hand.CanSplit())
+                            {
+                                Console.WriteLine(UIMessages.PlayerSplitError);
+                                continue;
+                            }
+                            _gameService.SplitHand(hand);
+                            break;
+
                         case PlayerInputType.Stand:
-                            //TODO: implement standing by index of hand
+                            //TODO: implement standing by specified index of hand
                             _playerActions.PlayerStands(0);
                             // Let dealer play after player stands (we should probably have a tracker for the gamestate so we can early terminate and not even need to access this method, maybe by just checking totals if the dealers already bust).
                             _dealerActions.DealerTurn();
@@ -76,12 +96,11 @@ namespace BlackJackQueen.Presentation
 
                         case PlayerInputType.ViewRules:
                             Console.WriteLine("TODO: RULES RENDERING");
-                            //TODO
                             break;
 
                         case PlayerInputType.Settings:
                             Console.WriteLine("TODO: Settings");
-                            //here we can render the custom input of a payout.
+                            //TableRules here.
                             break;
 
                         default:
