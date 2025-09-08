@@ -1,4 +1,5 @@
-﻿using BlackJackQueen.Models.Enums;
+﻿using BlackJackQueen.Models;
+using BlackJackQueen.Models.Enums;
 using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Presentation.Inputs;
 using BlackJackQueen.Presentation.Output;
@@ -32,25 +33,19 @@ namespace BlackJackQueen.Presentation
             PlayerInputParser.ParseExperienceLevel(experienceInput);
 
             //Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
-
             Console.WriteLine(UIMessages.NewGameText);
             //DEALER NEVER GETS A BREAK >:) 
             _gameService.DealInitialHand();
 
+            var playerHands = _gameService.GetPlayerHands().ToList();
 
-            foreach (var hand in _gameService.GetPlayerHands().ToList())
+            foreach (var hand in playerHands)
             {
                 bool playerTurn = true;
-
+                bool isFirstTurn = true;
                 while (playerTurn)
                 {
-                    //TODO: refactor this so we doesn't need to check every iteration.
-                    if (hand.CanSplit())
-                    {
-                        Console.WriteLine(UIMessages.PlayerSplitPrompt);
-                    }
-
-                    Console.WriteLine(UIMessages.PlayerInputPrompt);
+                    DisplayPlayerTurnPrompt(hand, isFirstTurn);
 
                     string input = Console.ReadLine()?.ToUpperInvariant();
                     var action = PlayerInputParser.ParseGameInputs(input);
@@ -107,9 +102,30 @@ namespace BlackJackQueen.Presentation
                             Console.WriteLine(UIMessages.InvalidInputText);
                             continue;
                     }
+                    isFirstTurn = false;
                 }
             }
 
         }
+
+        private static void DisplayPlayerTurnPrompt(Hand hand, bool isFirstTurn)
+        {
+            if (isFirstTurn)
+            {
+                Console.WriteLine(UIMessages.PlayerFirstTurnPrompt);
+            }
+
+            else
+            {
+                Console.WriteLine(UIMessages.PlayerInputPrompt);
+            }
+
+            //TODO: refactor this so we doesn't need to check every iteration.
+            if (hand.CanSplit())
+            {
+                Console.WriteLine(UIMessages.PlayerSplitPrompt);
+            }
+        }
+
     }
 }
