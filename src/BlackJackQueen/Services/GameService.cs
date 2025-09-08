@@ -40,6 +40,7 @@ namespace BlackJackQueen.Services
             for (int i = 0; i < count; i++)
             {
                 var drawnCard = _deck.DrawCard();
+
                 hands.AddCard(drawnCard);
                 //we need to have something to track if its a dealer hand or a regular hand beyond the bool prop, maybe IsInitialDeal via a game state?
                 if (hands.IsDealerHand)
@@ -73,6 +74,21 @@ namespace BlackJackQueen.Services
             {
                 hand.IsStanding = true;
             }
+        }
+
+        public void SplitHand(Hand hand)
+        {
+            if (!hand.CanSplit())
+            {
+                throw new InvalidOperationException("Hand cannot be split.");
+            }
+
+            var cardToMove = hand.cards[0];
+            var newHand = new Hand();
+            newHand.AddCard(cardToMove);
+            hand.RemoveCard(cardToMove);
+            Console.WriteLine("Hand successfully split!");
+            _playerHands.Add(newHand);
         }
 
         public List<Hand> GetPlayerHands() => _playerHands;

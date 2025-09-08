@@ -20,6 +20,11 @@
             cards.Add(card);
         }
 
+        public void RemoveCard(CardModel card)
+        {
+            cards.Remove(card);
+        }
+
         public HandValue GetTotalValueOfHand()
         {
             int total = 0;
@@ -56,6 +61,11 @@
         public string GetHandDisplay()
         {
             return string.Join(", ", cards.Select(c => c.ToString()));
+        }
+
+        public bool CanSplit()
+        {
+            return cards[0].Rank == cards[1].Rank && cards.Count == 2;
         }
     }
 }
