@@ -42,7 +42,15 @@ namespace BlackJackQueen.Presentation
             foreach (var hand in playerHands)
             {
                 bool playerTurn = true;
+
+                if (IsHandNaturalBlackjack(hand))
+                {
+                    Console.WriteLine(UIMessages.BlackjackText);
+                    playerTurn = false;
+                }
+
                 bool isFirstTurn = true;
+
                 while (playerTurn)
                 {
                     DisplayPlayerTurnPrompt(hand, isFirstTurn);
@@ -67,6 +75,7 @@ namespace BlackJackQueen.Presentation
                                 playerTurn = false;
                                 _gameService.ResetGame();
                             }
+
                             break;
 
                         case PlayerInputType.Double:
@@ -80,6 +89,7 @@ namespace BlackJackQueen.Presentation
                                 Console.WriteLine(UIMessages.PlayerSplitError);
                                 continue;
                             }
+
                             _gameService.SplitHand(hand);
                             break;
 
@@ -134,5 +144,9 @@ namespace BlackJackQueen.Presentation
             }
         }
 
+        private static bool IsHandNaturalBlackjack(Hand hand)
+        {
+            return hand.IsBlackjack;
+        }
     }
 }
