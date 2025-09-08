@@ -38,31 +38,38 @@ namespace BlackJackQueen.Presentation.Inputs
 
             foreach (var hand in playerHands)
             {
-                int playerTotal = hand.TotalValue;
-                string gameResult;
-
-                if (playerTotal > GameConstants.Blackjack)
-                {
-                    gameResult = "Player busts! Dealer wins :/.";
-                }
-                else if (dealerTotalValue > GameConstants.Blackjack)
-                {
-                    gameResult = "Dealer busts! Player wins.";
-                }
-                else if (dealerTotalValue > playerTotal)
-                {
-                    gameResult = "Dealer wins.";
-                }
-                else if (dealerTotalValue < playerTotal)
-                {
-                    gameResult = "Player wins.";
-                }
-                else
-                {
-                    gameResult = "Push (tie).";
-                }
-
+                string gameResult = DetermineRoundOutcome(hand, dealerTotalValue);
                 Console.WriteLine(gameResult);
+            }
+        }
+
+        private string DetermineRoundOutcome(Hand hand, int dealerTotalValue)
+        {
+            int playerTotal = hand.TotalValue;
+
+            if (playerTotal > GameConstants.Blackjack)
+            {
+                return "Player busts! Dealer wins :/.";
+            }
+
+            else if (dealerTotalValue > GameConstants.Blackjack)
+            {
+                return "Dealer busts! Player wins.";
+            }
+
+            else if (dealerTotalValue > playerTotal)
+            {
+                return "Dealer wins.";
+            }
+
+            else if (dealerTotalValue < playerTotal)
+            {
+                return "Player wins.";
+            }
+
+            else
+            {
+                return "Push (tie).";
             }
         }
     }

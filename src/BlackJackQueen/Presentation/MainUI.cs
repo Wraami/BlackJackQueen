@@ -98,6 +98,7 @@ namespace BlackJackQueen.Presentation
                             _playerActions.PlayerStands(0);
                             // Let dealer play after player stands (we should probably have a tracker for the gamestate so we can early terminate and not even need to access this method, maybe by just checking totals if the dealers already bust).
                             _dealerActions.DealerTurn();
+                            playerTurn = false;
                             break;
 
                         case PlayerInputType.Quit:
@@ -122,7 +123,7 @@ namespace BlackJackQueen.Presentation
                     isFirstTurn = false;
                 }
             }
-
+            _gameService.ResetGame();
         }
 
         private static void DisplayPlayerTurnPrompt(Hand hand, bool isFirstTurn)
