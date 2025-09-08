@@ -28,11 +28,16 @@ namespace BlackJackQueen.Services
             foreach (var hand in _playerHands)
             {
                 DealCards(hand, 2);
-                Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.TotalValue})");
+                DisplayPlayerHand(hand);
             }
 
             DealCards(_dealerHand, 2);
             Console.WriteLine($"Dealer shows: {_dealerHand.GetHandDisplay().Split(',')[0]}");
+        }
+
+        private static void DisplayPlayerHand(Hand hand)
+        {
+            Console.WriteLine($"Player Hand: {hand.GetHandDisplay()} (Total: {hand.TotalValue})");
         }
 
         public void DealCards(Hand hands, int? count)
@@ -89,6 +94,7 @@ namespace BlackJackQueen.Services
             hand.RemoveCard(cardToMove);
             Console.WriteLine("Hand successfully split!");
             _playerHands.Add(newHand);
+            DisplayPlayerHand(newHand);
         }
 
         public List<Hand> GetPlayerHands() => _playerHands;
