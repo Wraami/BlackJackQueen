@@ -48,6 +48,13 @@ namespace BlackJackQueen.Presentation
                     DisplayPlayerTurnPrompt(hand, isFirstTurn);
 
                     string input = Console.ReadLine()?.ToUpperInvariant();
+
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine(UIMessages.InvalidInputText);
+                        continue;
+                    }
+
                     var action = PlayerInputParser.ParseGameInputs(input);
 
                     switch (action)
