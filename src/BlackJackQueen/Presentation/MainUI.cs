@@ -94,8 +94,7 @@ namespace BlackJackQueen.Presentation
                             break;
 
                         case PlayerInputType.Stand:
-                            //TODO: implement standing by specified index of hand
-                            _playerActions.PlayerStands(0);
+                            _playerActions.PlayerStands(_gameService.GetPlayerHands().IndexOf(hand));
                             // Let dealer play after player stands (we should probably have a tracker for the gamestate so we can early terminate and not even need to access this method, maybe by just checking totals if the dealers already bust).
                             _dealerActions.DealerTurn();
                             playerTurn = false;
