@@ -73,7 +73,6 @@ namespace BlackJackQueen.Presentation
                             {
                                 Console.WriteLine(UIMessages.BustMessageText);
                                 playerTurn = false;
-                                _gameService.ResetGame();
                             }
 
                             break;
@@ -96,7 +95,6 @@ namespace BlackJackQueen.Presentation
                         case PlayerInputType.Stand:
                             _playerActions.PlayerStands(_gameService.GetPlayerHands().IndexOf(hand));
                             // Let dealer play after player stands (we should probably have a tracker for the gamestate so we can early terminate and not even need to access this method, maybe by just checking totals if the dealers already bust).
-                            _dealerActions.DealerTurn();
                             playerTurn = false;
                             break;
 
@@ -122,6 +120,9 @@ namespace BlackJackQueen.Presentation
                     isFirstTurn = false;
                 }
             }
+
+            _dealerActions.DealerTurn();
+
             _gameService.ResetGame();
         }
 
