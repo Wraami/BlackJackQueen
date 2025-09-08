@@ -65,7 +65,7 @@
 
         public bool CanSplit()
         {
-            return cards[0].Rank == cards[1].Rank && cards.Count == 2;
+            return cards.Count == 2 && cards[0].Rank == cards[1].Rank;
         }
     }
 }
