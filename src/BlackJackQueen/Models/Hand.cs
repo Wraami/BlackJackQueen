@@ -67,5 +67,11 @@
         {
             return cards.Count == 2 && cards[0].Rank == cards[1].Rank;
         }
+
+        public bool CanDouble()
+        {
+            return cards.Count == 2;
+        }
+
     }
 }
