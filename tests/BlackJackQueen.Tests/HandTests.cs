@@ -6,14 +6,20 @@ namespace BlackJackQueen.Tests;
 
 public class HandTests
 {
-    [Fact]
-    public void Split_ShouldCreateSeparateHands_WhenOneHandHasPair()
+    private Hand CreateGenericPairHand()
     {
         var hand = new Hand();
 
         hand.AddCard(new CardModel(Suit.Diamonds, Rank.Six));
         hand.AddCard(new CardModel(Suit.Spades, Rank.Six));
 
+        return hand;
+    }
+
+    [Fact]
+    public void Split_ShouldCreateSeparateHands_WhenOneHandHasPair()
+    {
+        var hand = CreateGenericPairHand();
         var gameService = new GameService();
 
         gameService.SplitHand(hand);
@@ -35,5 +41,14 @@ public class HandTests
 
         Assert.False(hand.IsBlackjack);
     }
+
+    [Fact]
+    public void Double_ShouldBeAllowed_WhenHandHasTwoCards()
+    {
+        var hand = CreateGenericPairHand();
+        Assert.True(hand.CanDouble());
+
+    }
+
 
 }
