@@ -25,13 +25,7 @@ namespace BlackJackQueen.Presentation
 
         public void Start()
         {
-            Console.WriteLine(UIMessages.ExperienceSelectText);
-            Console.WriteLine("1 - Casual Player");
-            Console.WriteLine("2 - Card Counter");
-
-            string experienceInput = Console.ReadLine();
-            PlayerInputParser.ParseExperienceLevel(experienceInput);
-
+            SelectGameExperience();
             //Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
             Console.WriteLine(UIMessages.NewGameText);
             //DEALER NEVER GETS A BREAK >:) 
@@ -124,6 +118,16 @@ namespace BlackJackQueen.Presentation
             _dealerActions.DealerTurn();
 
             _gameService.ResetGame();
+        }
+
+        private static void SelectGameExperience()
+        {
+            Console.WriteLine(UIMessages.ExperienceSelectText);
+            Console.WriteLine("1 - Casual Player");
+            Console.WriteLine("2 - Card Counter");
+
+            string experienceInput = Console.ReadLine();
+            PlayerInputParser.ParseExperienceLevel(experienceInput);
         }
 
         private static void DisplayPlayerTurnPrompt(Hand hand, bool isFirstTurn)
