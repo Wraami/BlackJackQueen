@@ -26,97 +26,14 @@ namespace BlackJackQueen.Presentation
         public void Start()
         {
             SelectGameExperience();
-            //Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
+            //TODO: Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
+            //DEALER NEVER GETS A BREAK >:)
             Console.WriteLine(UIMessages.NewGameText);
-            //DEALER NEVER GETS A BREAK >:) 
+
             _gameService.DealInitialHand();
-
-            var playerHands = _gameService.GetPlayerHands().ToList();
-
-            foreach (var hand in playerHands)
-            {
-                bool playerTurn = true;
-
-                if (IsHandNaturalBlackjack(hand))
-                {
-                    Console.WriteLine(UIMessages.BlackjackText);
-                    playerTurn = false;
-                }
-
-                bool isFirstTurn = true;
-
-                while (playerTurn)
-                {
-                    DisplayPlayerTurnPrompt(hand, isFirstTurn);
-
-                    string input = Console.ReadLine()?.ToUpperInvariant();
-
-                    if (string.IsNullOrWhiteSpace(input))
-                    {
-                        Console.WriteLine(UIMessages.InvalidInputText);
-                        continue;
-                    }
-
-                    var action = PlayerInputParser.ParseGameInputs(input);
-
-                    switch (action)
-                    {
-                        case PlayerInputType.Hit:
-                            _playerActions.PlayerHits(_gameService.GetPlayerHands().IndexOf(hand));
-                            if (hand.IsBust)
-                            {
-                                Console.WriteLine(UIMessages.BustMessageText);
-                                playerTurn = false;
-                            }
-
-                            break;
-
-                        case PlayerInputType.Double:
-                            //TODO: validation if the player can actually double their hand or not
-
-                            break;
-
-                        case PlayerInputType.Split:
-                            if (!hand.CanSplit())
-                            {
-                                Console.WriteLine(UIMessages.PlayerSplitError);
-                                continue;
-                            }
-
-                            _gameService.SplitHand(hand);
-                            break;
-
-                        case PlayerInputType.Stand:
-                            _playerActions.PlayerStands(_gameService.GetPlayerHands().IndexOf(hand));
-                            // Let dealer play after player stands (we should probably have a tracker for the gamestate so we can early terminate and not even need to access this method, maybe by just checking totals if the dealers already bust).
-                            playerTurn = false;
-                            break;
-
-                        case PlayerInputType.Quit:
-                            Console.WriteLine(UIMessages.QuitText);
-                            _gameService.ResetGame();
-                            playerTurn = false;
-                            break;
-
-                        case PlayerInputType.ViewRules:
-                            Console.WriteLine("TODO: RULES RENDERING");
-                            break;
-
-                        case PlayerInputType.Settings:
-                            Console.WriteLine("TODO: Settings");
-                            //TableRules here.
-                            break;
-
-                        default:
-                            Console.WriteLine(UIMessages.InvalidInputText);
-                            continue;
-                    }
-                    isFirstTurn = false;
-                }
-            }
+            PlayAllHands();
 
             _dealerActions.DealerTurn();
-
             _gameService.ResetGame();
         }
 
@@ -128,6 +45,98 @@ namespace BlackJackQueen.Presentation
 
             string experienceInput = Console.ReadLine();
             PlayerInputParser.ParseExperienceLevel(experienceInput);
+        }
+
+        private void PlayAllHands()
+        {
+            var playerHands = _gameService.GetPlayerHands().ToList();
+
+            foreach (var hand in playerHands)
+            {
+                PlayHand(hand);
+            }
+        }
+
+        private void PlayHand(Hand hand)
+        {
+            if (IsHandNaturalBlackjack(hand))
+            {
+                Console.WriteLine(UIMessages.BlackjackText);
+                return;
+            }
+
+            bool playerTurn = true;
+            bool isFirstTurn = true;
+
+            while (playerTurn)
+            {
+                DisplayPlayerTurnPrompt(hand, isFirstTurn);
+
+                string input = Console.ReadLine()?.ToUpperInvariant();
+
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine(UIMessages.InvalidInputText);
+                    continue;
+                }
+                playerTurn = HandlePlayerAction(input, hand);
+                isFirstTurn = false;
+            }
+        }
+
+        private bool HandlePlayerAction(string input, Hand hand)
+        {
+            var action = PlayerInputParser.ParseGameInputs(input);
+
+            switch (action)
+            {
+                case PlayerInputType.Hit:
+                    _playerActions.PlayerHits(_gameService.GetPlayerHands().IndexOf(hand));
+                    if (hand.IsBust)
+                    {
+                        Console.WriteLine(UIMessages.BustMessageText);
+                        return false;
+                    }
+
+                    return true;
+
+                case PlayerInputType.Double:
+                    //TODO: validation if the player can actually double their hand or not
+                    return false;
+
+                case PlayerInputType.Split:
+                    if (!hand.CanSplit())
+                    {
+                        Console.WriteLine(UIMessages.PlayerSplitError);
+                        return true;
+                    }
+
+                    _gameService.SplitHand(hand);
+
+                    return true;
+
+                case PlayerInputType.Stand:
+                    _playerActions.PlayerStands(_gameService.GetPlayerHands().IndexOf(hand));
+                    return false;
+
+                case PlayerInputType.Quit:
+                    Console.WriteLine(UIMessages.QuitText);
+                    return false;
+
+
+                case PlayerInputType.ViewRules:
+                    Console.WriteLine("TODO: RULES RENDERING");
+                    return true;
+
+                case PlayerInputType.Settings:
+                    Console.WriteLine("TODO: Settings");
+                    //TableRules here.
+                    return true;
+
+                default:
+                    Console.WriteLine(UIMessages.InvalidInputText);
+                    return true;
+            }
         }
 
         private static void DisplayPlayerTurnPrompt(Hand hand, bool isFirstTurn)
