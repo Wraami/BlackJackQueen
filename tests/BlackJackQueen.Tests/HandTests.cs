@@ -1,25 +1,17 @@
 ﻿using BlackJackQueen.Models;
 using BlackJackQueen.Models.Enums;
 using BlackJackQueen.Services;
+using BlackJackQueen.Tests.Fixtures;
 
 namespace BlackJackQueen.Tests;
 
 public class HandTests
 {
-    private Hand CreateGenericPairHand()
-    {
-        var hand = new Hand();
-
-        hand.AddCard(new CardModel(Suit.Diamonds, Rank.Six));
-        hand.AddCard(new CardModel(Suit.Spades, Rank.Six));
-
-        return hand;
-    }
 
     [Fact]
     public void Split_ShouldCreateSeparateHands_WhenOneHandHasPair()
     {
-        var hand = CreateGenericPairHand();
+        var hand = HandHelper.CreateGenericPairHand();
         var gameService = new GameService();
 
         gameService.SplitHand(hand);
@@ -45,7 +37,7 @@ public class HandTests
     [Fact]
     public void Double_ShouldBeAllowed_WhenHandHasTwoCards()
     {
-        var hand = CreateGenericPairHand();
+        var hand = HandHelper.CreateGenericPairHand();
         Assert.True(hand.CanDouble());
 
     }
