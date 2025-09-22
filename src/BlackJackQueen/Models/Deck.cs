@@ -5,6 +5,7 @@ namespace BlackJackQueen.Models
     public class Deck
     {
         private readonly List<CardModel> _cards;
+        public int CardsRemaining => _cards.Count;
 
         public Deck()
         {
