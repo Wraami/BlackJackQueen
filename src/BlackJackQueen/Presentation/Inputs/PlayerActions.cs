@@ -27,6 +27,18 @@ namespace BlackJackQueen.Presentation.Inputs
             Console.WriteLine($"New player Hand: {handToHit.GetHandDisplay()} (Total: {handToHit.TotalValue})");
         }
 
+        public void PlayerDoubles(int handIndex)
+        {
+            var playerHand = _gameService.GetPlayerHands();
+            var handToDouble = playerHand[handIndex];
+
+            //TODO: add a betting service to implement a balance to bet :)
+            _gameService.Hit(handToDouble);
+            Console.WriteLine($"Player doubled on hand {handIndex + 1}: Currently hand shows: ({handToDouble.GetHandDisplay()})");
+            Console.WriteLine($"New player Hand: {handToDouble.GetHandDisplay()} (Total: {handToDouble.TotalValue})");
+            _gameService.Stand(handToDouble);
+        }
+
         public void PlayerStands(int handIndex)
         {
             _gameService.Stand();

@@ -101,7 +101,14 @@ namespace BlackJackQueen.Presentation
                     return true;
 
                 case PlayerInputType.Double:
-                    //TODO: validation if the player can actually double their hand or not
+                    if (!hand.CanDouble())
+                    {
+                        Console.WriteLine(UIMessages.PlayerDoubleError);
+                        return false;
+                    }
+
+                    _playerActions.PlayerDoubles(_gameService.GetPlayerHands().IndexOf(hand));
+                    //TODO: implement a bet service tied to a player so we can start betting monies :)
                     return false;
 
                 case PlayerInputType.Split:

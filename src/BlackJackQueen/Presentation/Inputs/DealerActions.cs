@@ -18,7 +18,7 @@ namespace BlackJackQueen.Presentation.Inputs
         {
             var dealerHand = _gameService.GetDealerHand();
             int dealerTotalValue = dealerHand.TotalValue;
-            Console.WriteLine($"dealer currently has {dealerTotalValue}");
+            Console.WriteLine($"dealer shows: {dealerTotalValue}");
             var playerHands = _gameService.GetPlayerHands();
 
             while (dealerTotalValue < GameConstants.DealerStandValue)
@@ -26,7 +26,7 @@ namespace BlackJackQueen.Presentation.Inputs
                 Console.WriteLine(UIMessages.DealerHitText);
                 _gameService.Hit(dealerHand);
                 dealerTotalValue = dealerHand.TotalValue;
-                Console.WriteLine($"Dealer now has {dealerTotalValue}");
+                Console.WriteLine($"Dealer now has a total of: {dealerTotalValue}");
                 Console.WriteLine($"Dealers hand: {dealerHand.GetHandDisplay()}");
             }
 

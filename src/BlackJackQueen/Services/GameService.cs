@@ -22,6 +22,8 @@ namespace BlackJackQueen.Services
             _gameActions = new DealerActions(this);
             _deck = new Deck();
         }
+        public List<Hand> GetPlayerHands() => _playerHands;
+        public Hand GetDealerHand() => _dealerHand;
 
         public void DealInitialHand()
         {
@@ -96,9 +98,6 @@ namespace BlackJackQueen.Services
             _playerHands.Add(newHand);
             DisplayPlayerHand(newHand);
         }
-
-        public List<Hand> GetPlayerHands() => _playerHands;
-        public Hand GetDealerHand() => _dealerHand;
 
         public void ResetGame()
         {
