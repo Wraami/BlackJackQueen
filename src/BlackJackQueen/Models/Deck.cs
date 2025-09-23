@@ -1,4 +1,5 @@
 ﻿using BlackJackQueen.Models.Enums;
+using BlackJackQueen.Presentation.Constants;
 
 namespace BlackJackQueen.Models
 {
@@ -48,8 +49,11 @@ namespace BlackJackQueen.Models
         {
             if (_cards.Count == 0)
             {
-                throw new InvalidOperationException("Deck is empty.");
+                //TODO: change this so a user can prompt, this is where a shoe will come in
+                Console.WriteLine(UIMessages.EmptyDeckMessage);
+                GenerateDeck(1);
             }
+
             var card = _cards[0];
             _cards.RemoveAt(0);
             return card;
