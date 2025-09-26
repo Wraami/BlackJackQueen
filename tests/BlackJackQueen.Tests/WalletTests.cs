@@ -12,12 +12,14 @@ namespace BlackJackQueen.Tests
             Assert.Equal(500m, wallet.Balance);
         }
 
-        [Fact]
-        public void Wallet_ShouldUpdateBalance_WhenDepositIsCalled()
+        [Theory]
+        [InlineData(500)]
+        [InlineData(200)]
+        public void Wallet_ShouldUpdateBalance_WhenDepositIsCalled(decimal balanceToDeposit)
         {
             var wallet = new Wallet(0m);
-            wallet.Deposit(200m);
-            Assert.Equal(200m, wallet.Balance);
+            wallet.Deposit(balanceToDeposit);
+            Assert.Equal(balanceToDeposit, wallet.Balance);
         }
 
     }

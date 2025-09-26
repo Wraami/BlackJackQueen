@@ -1,4 +1,5 @@
 ﻿using BlackJackQueen.Interfaces;
+using BlackJackQueen.Presentation.Constants;
 
 namespace BlackJackQueen.Models.Player
 {
@@ -13,7 +14,12 @@ namespace BlackJackQueen.Models.Player
 
         public void Deposit(decimal amount)
         {
-            throw new NotImplementedException();
+            if (amount < 0)
+            {
+                Console.WriteLine(UIMessages.DepositErrorMessage);
+                return;
+            }
+            Balance += amount;
         }
     }
 }
