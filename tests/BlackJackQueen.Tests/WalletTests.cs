@@ -12,5 +12,13 @@ namespace BlackJackQueen.Tests
             Assert.Equal(500m, wallet.Balance);
         }
 
+        [Fact]
+        public void Wallet_ShouldUpdateBalance_WhenDepositIsCalled()
+        {
+            var wallet = new Wallet(0m);
+            wallet.Deposit(200m);
+            Assert.Equal(200m, wallet.Balance);
+        }
+
     }
 }
