@@ -1,4 +1,6 @@
-﻿namespace BlackJackQueen.Tests
+﻿using BlackJackQueen.Models.Player;
+
+namespace BlackJackQueen.Tests
 {
     public class WalletTests
     {
