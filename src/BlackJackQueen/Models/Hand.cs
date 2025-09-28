@@ -44,15 +44,15 @@
             }
 
             //Attempt to handle aces.
-            while (total > 21 && aceCount > 0)
+            while (total > GameConstants.Blackjack && aceCount > 0)
             {
                 total -= 10;
                 aceCount--;
             }
 
             bool isSoft = aceCount > 0;
-            bool isBust = total > 21;
-            bool isBlackjack = total == 21 && cards.Count == 2;
+            bool isBust = total > GameConstants.Blackjack;
+            bool isBlackjack = (total == GameConstants.Blackjack) && (cards.Count == 2);
 
             return new HandValue(total, isSoft, isBust, isBlackjack);
         }
