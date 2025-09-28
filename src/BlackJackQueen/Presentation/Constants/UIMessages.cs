@@ -6,6 +6,7 @@
         public const string PlayerFirstTurnPrompt = "Enter H (Hit), S (Stand), D (Double), SP (Split), Q (Quit), V (Rules), ' (Settings), C (clear):";
         public const string PlayerSplitPrompt = "You can split this hand, enter SP if you'd like to split.";
         public const string PlayerSplitError = "This hand can't be split! try again with a splittable hand.";
+        public const string SuccessfulSplitMessage = "Hand successfully split!";
         public const string PlayerDoubleError = "This hand can't be doubled! try a different option";
         public const string QuitText = "Quitting this blackjack hand!";
         public const string InvalidInputText = "Invalid input, please enter H, S, Q or one of the other prompt options and try again :)";

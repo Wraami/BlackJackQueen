@@ -22,6 +22,7 @@ namespace BlackJackQueen.Services
             _gameActions = new DealerActions(this);
             _deck = new Deck();
         }
+
         public List<Hand> GetPlayerHands() => _playerHands;
         public Hand GetDealerHand() => _dealerHand;
 
@@ -87,14 +88,14 @@ namespace BlackJackQueen.Services
         {
             if (!hand.CanSplit())
             {
-                throw new InvalidOperationException("Hand cannot be split.");
+                throw new InvalidOperationException(UIMessages.PlayerSplitError);
             }
 
             var cardToMove = hand.cards[0];
             var newHand = new Hand();
             newHand.AddCard(cardToMove);
             hand.RemoveCard(cardToMove);
-            Console.WriteLine("Hand successfully split!");
+            Console.WriteLine(UIMessages.SuccessfulSplitMessage);
             _playerHands.Add(newHand);
             DisplayPlayerHand(newHand);
         }
