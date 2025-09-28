@@ -1,5 +1,6 @@
 ﻿using BlackJackQueen.Models;
 using BlackJackQueen.Models.Enums;
+using BlackJackQueen.Models.Player;
 using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Presentation.Inputs;
 using BlackJackQueen.Presentation.Output;
@@ -14,6 +15,7 @@ namespace BlackJackQueen.Presentation
         private PlayerActions _playerActions;
         private DealerActions _dealerActions;
         private DisplayOptions displayOptions;
+        private Player _player;
         //maybe change this to dependency injection if get the time.
         public MainUI()
         {
@@ -21,6 +23,7 @@ namespace BlackJackQueen.Presentation
             displayOptions = new DisplayOptions();
             _playerActions = new PlayerActions(_gameService);
             _dealerActions = new DealerActions(_gameService);
+            _player = CreatePlayer();
         }
 
         public void Start()
@@ -29,6 +32,7 @@ namespace BlackJackQueen.Presentation
             //TODO: Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
             //DEALER NEVER GETS A BREAK >:)
             Console.WriteLine(UIMessages.NewGameText);
+            Console.WriteLine($"Welcome {_player.PlayerName}, You've started with a balance of: {_player.Balance} chips");
 
             _gameService.DealInitialHand();
             PlayAllHands();
@@ -45,6 +49,15 @@ namespace BlackJackQueen.Presentation
 
             string experienceInput = Console.ReadLine();
             PlayerInputParser.ParseExperienceLevel(experienceInput);
+        }
+
+        private Player CreatePlayer()
+        {
+            Console.WriteLine("Please enter your name: ");
+
+            string nameInput = Console.ReadLine();
+            var player = PlayerInputParser.ParseName(nameInput);
+            return player;
         }
 
         private void PlayAllHands()

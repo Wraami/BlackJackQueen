@@ -1,4 +1,5 @@
 ﻿using BlackJackQueen.Models.Enums;
+using BlackJackQueen.Models.Player;
 using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Presentation.Output;
 
@@ -25,7 +26,7 @@ namespace BlackJackQueen.Presentation.Parsers
                 case "'":
                     return PlayerInputType.Settings;
                 default:
-                    throw new NotImplementedException("Invalid Input");
+                    throw new ArgumentException("Invalid Input");
             }
         }
 
@@ -42,8 +43,19 @@ namespace BlackJackQueen.Presentation.Parsers
                     return;
 
                 default:
-                    throw new ArgumentNullException(UIMessages.InvalidInputText);
+                    throw new ArgumentException(UIMessages.InvalidInputText);
             }
+        }
+
+        public static Player ParseName(string playerName)
+        {
+            if (string.IsNullOrWhiteSpace(playerName))
+            {
+                Console.WriteLine("Name not entered, logging as a guest...");
+                return new Player("Guest");
+            }
+
+            return new Player(playerName);
         }
     }
 }
