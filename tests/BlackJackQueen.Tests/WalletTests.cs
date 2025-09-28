@@ -1,4 +1,4 @@
-﻿using BlackJackQueen.Models.Player;
+﻿using BlackJackQueen.Tests.Fixtures;
 
 namespace BlackJackQueen.Tests
 {
@@ -8,7 +8,7 @@ namespace BlackJackQueen.Tests
         [Fact]
         public void Wallet_ShouldStartWithInitialBalance_WhenPassedIn()
         {
-            var wallet = new Wallet(500m);
+            var wallet = WalletHelper.CreateGenericWalletWithBalance();
             Assert.Equal(500m, wallet.Balance);
         }
 
@@ -17,7 +17,7 @@ namespace BlackJackQueen.Tests
         [InlineData(200)]
         public void Wallet_ShouldUpdateBalance_WhenDepositIsCalled(decimal balanceToDeposit)
         {
-            var wallet = new Wallet(0m);
+            var wallet = WalletHelper.CreateGenericWalletWithBalance(0m);
             wallet.Deposit(balanceToDeposit);
             Assert.Equal(balanceToDeposit, wallet.Balance);
         }
