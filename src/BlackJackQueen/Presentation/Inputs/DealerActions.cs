@@ -30,11 +30,7 @@ namespace BlackJackQueen.Presentation.Inputs
                 Console.WriteLine($"Dealers hand: {dealerHand.GetHandDisplay()}");
             }
 
-            if (dealerTotalValue == GameConstants.DealerStandValue)
-            {
-                Console.WriteLine(UIMessages.DealerStandText);
-                return;
-            }
+            Console.WriteLine(UIMessages.DealerStandText);
 
             foreach (var hand in playerHands)
             {
