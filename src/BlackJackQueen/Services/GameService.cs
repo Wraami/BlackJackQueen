@@ -102,7 +102,11 @@ namespace BlackJackQueen.Services
 
         public void ResetGame()
         {
-            _playerHands.Clear();
+            foreach (var hand in _playerHands)
+            {
+                hand.cards.Clear();
+            }
+
             _dealerHand.cards.Clear();
         }
 

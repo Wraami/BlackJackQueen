@@ -57,5 +57,21 @@ namespace BlackJackQueen.Presentation.Parsers
 
             return new Player(playerName);
         }
+
+        public static bool ParseContinueGameInput(string input)
+        {
+            switch (input)
+            {
+                case "Y":
+                    return true;
+
+                case "N":
+                    Console.WriteLine(UIMessages.LeavingMessage);
+                    return false;
+
+                default:
+                    throw new ArgumentException(UIMessages.InvalidInputText);
+            }
+        }
     }
 }

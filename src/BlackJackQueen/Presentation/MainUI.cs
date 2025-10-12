@@ -31,14 +31,23 @@ namespace BlackJackQueen.Presentation
             SelectGameExperience();
             //TODO: Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
             //DEALER NEVER GETS A BREAK >:)
-            Console.WriteLine(UIMessages.NewGameText);
-            Console.WriteLine($"Welcome {_player.PlayerName}, You've started with a balance of: {_player.Balance} chips");
+            bool playAgain = true;
 
-            _gameService.DealInitialHand();
-            PlayAllHands();
+            while (playAgain)
+            {
+                Console.WriteLine(UIMessages.NewGameText);
+                Console.WriteLine($"Welcome {_player.PlayerName}, You've started with a balance of: {_player.Balance} chips");
 
-            _dealerActions.DealerTurn();
-            _gameService.ResetGame();
+                _gameService.ResetGame();
+
+                _gameService.DealInitialHand();
+                PlayAllHands();
+
+                _dealerActions.DealerTurn();
+
+                Console.WriteLine(UIMessages.PlayAgainPrompt);
+                playAgain = PlayerInputParser.ParseContinueGameInput(Console.ReadLine());
+            }
         }
 
         private static void SelectGameExperience()

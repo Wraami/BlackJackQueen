@@ -21,6 +21,8 @@
         public const string StarterMessage = "Welcome to BlackJackQueen! we're gonna teach you, yes YOU! how to actually play blackjack so you don't embarrass yourself when you go to a real casino :)";
         public const string NewGameText = "Starting a new round of blackjack, best of luck!";
         public const string EmptyDeckMessage = "Deck is empty! generating a new deck...";
+        public const string LeavingMessage = "Thanks for playing!";
+        public const string PlayAgainPrompt = "Would you like to play another round? (Y/N)";
 
         #region Wallet
         public const string DepositErrorMessage = "Cannot Deposit an invalid amount!";
