@@ -51,7 +51,7 @@ namespace BlackJackQueen.Presentation.Parsers
         {
             if (string.IsNullOrWhiteSpace(playerName))
             {
-                Console.WriteLine("Name not entered, logging as a guest...");
+                Console.WriteLine(UIMessages.NoNameUserMessage);
                 return new Player("Guest");
             }
 

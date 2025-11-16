@@ -23,6 +23,16 @@
         public const string EmptyDeckMessage = "Deck is empty! generating a new deck...";
         public const string LeavingMessage = "Thanks for playing!";
         public const string PlayAgainPrompt = "Would you like to play another round? (Y/N)";
+        public const string NoNameUserMessage = "Name not entered, logging as a guest...";
+
+        #region Game Results
+        public const string DealerWinBustMessage = "Player busts! Dealer wins :/.";
+        public const string PlayerWinBustMessage = "Dealer busts! Player wins.";
+        public const string DealerWinMessage = "Dealer wins.";
+        public const string PlayerWinMessage = "Player wins.";
+        public const string GamePushMessage =  "Push (tie).";
+
+        #endregion
 
         #region Wallet
         public const string DepositErrorMessage = "Cannot Deposit an invalid amount!";

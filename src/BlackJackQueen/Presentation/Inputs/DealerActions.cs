@@ -45,27 +45,27 @@ namespace BlackJackQueen.Presentation.Inputs
 
             if (playerTotal > GameConstants.Blackjack)
             {
-                return "Player busts! Dealer wins :/.";
+                return UIMessages.DealerWinBustMessage;
             }
 
             else if (dealerTotalValue > GameConstants.Blackjack)
             {
-                return "Dealer busts! Player wins.";
+                return UIMessages.PlayerWinBustMessage;
             }
 
             else if (dealerTotalValue > playerTotal)
             {
-                return "Dealer wins.";
+                return UIMessages.DealerWinMessage;
             }
 
             else if (dealerTotalValue < playerTotal)
             {
-                return "Player wins.";
+                return UIMessages.PlayerWinMessage;
             }
 
             else
             {
-                return "Push (tie).";
+                return UIMessages.GamePushMessage;
             }
         }
     }
