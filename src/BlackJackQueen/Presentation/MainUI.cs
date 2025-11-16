@@ -53,8 +53,8 @@ namespace BlackJackQueen.Presentation
         private static void SelectGameExperience()
         {
             Console.WriteLine(UIMessages.ExperienceSelectText);
-            Console.WriteLine("1 - Casual Player");
-            Console.WriteLine("2 - Card Counter");
+            Console.WriteLine(UIMessages.PlayerCasualOption);
+            Console.WriteLine(UIMessages.PlayerCounterOption);
 
             string experienceInput = Console.ReadLine();
             PlayerInputParser.ParseExperienceLevel(experienceInput);
@@ -62,7 +62,7 @@ namespace BlackJackQueen.Presentation
 
         private Player CreatePlayer()
         {
-            Console.WriteLine("Please enter your name: ");
+            Console.WriteLine(UIMessages.PlayerNamePrompt);
 
             string nameInput = Console.ReadLine();
             var player = PlayerInputParser.ParseName(nameInput);

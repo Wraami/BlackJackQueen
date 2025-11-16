@@ -1,4 +1,5 @@
 ﻿using BlackJackQueen.Interfaces.Actions;
+using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Services;
 
 namespace BlackJackQueen.Presentation.Inputs
@@ -17,7 +18,7 @@ namespace BlackJackQueen.Presentation.Inputs
             var playerHand = _gameService.GetPlayerHands();
             if (handIndex >= playerHand.Count())
             {
-                Console.WriteLine("Invalid hand selection, pick a valid hand");
+                Console.WriteLine(UIMessages.InvalidHandSelectionMessage);
                 return;
             }
 

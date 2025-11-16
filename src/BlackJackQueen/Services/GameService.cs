@@ -55,7 +55,7 @@ namespace BlackJackQueen.Services
                 {
                     if (hands.cards.Count() == 2)
                     {
-                        Console.WriteLine($"Dealt [HIDDEN CARD] to dealer's hand");
+                        Console.WriteLine(UIMessages.DealerHiddenCardMessage);
                         continue;
 
                     }
