@@ -1,5 +1,4 @@
 ﻿using BlackJackQueen.Models.Enums;
-using BlackJackQueen.Models.Player;
 using BlackJackQueen.Presentation.Constants;
 using BlackJackQueen.Presentation.Output;
 
@@ -47,15 +46,15 @@ namespace BlackJackQueen.Presentation.Parsers
             }
         }
 
-        public static Player ParseName(string playerName)
+        public static string ParseName(string playerName)
         {
             if (string.IsNullOrWhiteSpace(playerName))
             {
                 Console.WriteLine(UIMessages.NoNameUserMessage);
-                return new Player("Guest");
+                return "Guest";
             }
 
-            return new Player(playerName);
+            return playerName;
         }
 
         public static bool ParseContinueGameInput(string input)
@@ -73,5 +72,17 @@ namespace BlackJackQueen.Presentation.Parsers
                     throw new ArgumentException(UIMessages.InvalidInputText);
             }
         }
+
+        public static decimal ParseBalance(string balance)
+        {
+            bool result = int.TryParse(balance, out int assignableBalance);
+            if (result)
+            {
+                return assignableBalance;
+            }
+
+            throw new ArgumentException(UIMessages.DepositErrorUserMessage);
+        }
+
     }
 }

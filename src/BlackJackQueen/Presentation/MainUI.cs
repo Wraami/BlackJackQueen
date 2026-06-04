@@ -26,11 +26,37 @@ namespace BlackJackQueen.Presentation
             _player = CreatePlayer();
         }
 
+
+        private void InitializePlayerBalance()
+        {
+            if(_player.Balance != 0m)
+            {
+                return;
+            }
+                Console.WriteLine("You currently have no chips to play with, Please enter the amount of chips that you'd like below:");
+                string balanceInput = Console.ReadLine();
+                decimal parsedBalance = PlayerInputParser.ParseBalance(balanceInput);
+                
+            if(parsedBalance <= 0m)
+                {
+                    Console.WriteLine("Invalid balance input, defaulting to 1000 chips.");
+                    _player.Wallet.Deposit(Wallet.DefaultBalance);
+                }
+                else
+                {
+                    _player.Wallet.Deposit(parsedBalance);
+                }
+        }
+
         public void Start()
         {
             SelectGameExperience();
             //TODO: Do a prompt here for new game, vs just accessing settings, so they can configure beyond defaults if they'd like.
             //DEALER NEVER GETS A BREAK >:)
+
+            //we want to access the players balance here.
+            InitializePlayerBalance();
+
             bool playAgain = true;
 
             while (playAgain)
@@ -65,8 +91,17 @@ namespace BlackJackQueen.Presentation
             Console.WriteLine(UIMessages.PlayerNamePrompt);
 
             string nameInput = Console.ReadLine();
-            var player = PlayerInputParser.ParseName(nameInput);
-            return player;
+
+            var name = PlayerInputParser.ParseName(nameInput);
+            var wallet = CreateWallet();
+            return new Player(name, wallet);
+        }
+
+        //default to a balance of 0.
+        private Wallet CreateWallet()
+        {
+            var wallet = new Wallet(0m);
+            return wallet;
         }
 
         private void PlayAllHands()

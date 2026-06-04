@@ -61,6 +61,7 @@
 
         #region Wallet
         public const string DepositErrorMessage = "Cannot Deposit an invalid amount!";
+        public const string DepositErrorUserMessage = "You've tried to deposit an invalid balance, can you try entering a number?";
 
         #endregion
     }
