@@ -18,7 +18,8 @@
         public const string PlayerFirstTurnPrompt = "Enter H (Hit), S (Stand), D (Double), SP (Split), Q (Quit), V (Rules), ' (Settings), C (clear):";
         public const string PlayerSplitPrompt = "You can split this hand, enter SP if you'd like to split.";
         public const string InvalidInputText = "Invalid input, please enter H, S, Q or one of the other prompt options and try again :)";
-        public const string DoublePrompt = "Invalid input, please enter H, S, Q or one of the other prompt options and try again :)";
+        public const string InvalidContinueInputText = "Invalid input, please enter Y or N to try again :)";
+        public const string InvalidExperienceLevelInputText = "Not a valid experience option, choose either 1 or 2 to try again :D";
         #endregion
 
         public const string PlayerSplitError = "This hand can't be split! try again with a splittable hand.";

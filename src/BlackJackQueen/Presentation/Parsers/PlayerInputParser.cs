@@ -25,7 +25,7 @@ namespace BlackJackQueen.Presentation.Parsers
                 case "'":
                     return PlayerInputType.Settings;
                 default:
-                    throw new ArgumentException("Invalid Input");
+                    throw new ArgumentException(UIMessages.InvalidInputText);
             }
         }
 
@@ -42,7 +42,7 @@ namespace BlackJackQueen.Presentation.Parsers
                     return;
 
                 default:
-                    throw new ArgumentException(UIMessages.InvalidInputText);
+                    throw new ArgumentException(UIMessages.InvalidExperienceLevelInputText);
             }
         }
 
@@ -70,7 +70,7 @@ namespace BlackJackQueen.Presentation.Parsers
                     return false;
 
                 default:
-                    throw new ArgumentException(UIMessages.InvalidInputText);
+                    throw new ArgumentException(UIMessages.InvalidContinueInputText);
             }
         }
 
