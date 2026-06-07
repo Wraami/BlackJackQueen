@@ -1,5 +1,6 @@
 ﻿using BlackJackQueen.Interfaces.Actions;
 using BlackJackQueen.Presentation.Constants;
+using BlackJackQueen.Presentation.Output;
 using BlackJackQueen.Services;
 
 namespace BlackJackQueen.Presentation.Inputs
@@ -23,6 +24,7 @@ namespace BlackJackQueen.Presentation.Inputs
             }
 
             var handToHit = playerHand[handIndex];
+            DisplayOptions.InsertDisplayDivider();
             Console.WriteLine($"Player hit on hand {handIndex + 1}: Currently hand shows: ({handToHit.GetHandDisplay()})");
             _gameService.Hit(handToHit);
             Console.WriteLine($"New player Hand: {handToHit.GetHandDisplay()} (Total: {handToHit.TotalValue})");
@@ -42,6 +44,7 @@ namespace BlackJackQueen.Presentation.Inputs
 
         public void PlayerStands(int handIndex)
         {
+            DisplayOptions.InsertDisplayDivider();
             _gameService.Stand();
         }
     }

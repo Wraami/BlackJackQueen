@@ -1,6 +1,7 @@
 ﻿using BlackJackQueen.Interfaces.Actions;
 using BlackJackQueen.Models;
 using BlackJackQueen.Presentation.Constants;
+using BlackJackQueen.Presentation.Output;
 using BlackJackQueen.Services;
 
 namespace BlackJackQueen.Presentation.Inputs
@@ -18,9 +19,9 @@ namespace BlackJackQueen.Presentation.Inputs
         {
             var dealerHand = _gameService.GetDealerHand();
             int dealerTotalValue = dealerHand.TotalValue;
-            Console.WriteLine($"dealer shows: {dealerTotalValue}");
-            var playerHands = _gameService.GetPlayerHands();
-
+            DisplayOptions.InsertDisplayDivider();
+            Console.WriteLine($"Dealer shows: {dealerTotalValue}");
+            
             while (dealerTotalValue < GameConstants.DealerStandValue)
             {
                 Console.WriteLine(UIMessages.DealerHitText);
@@ -32,11 +33,20 @@ namespace BlackJackQueen.Presentation.Inputs
 
             Console.WriteLine(UIMessages.DealerStandText);
 
+            AggregateResults(dealerTotalValue);
+        }
+
+        private void AggregateResults(int dealerTotalValue)
+        {
+            var playerHands = _gameService.GetPlayerHands();
+
             foreach (var hand in playerHands)
             {
                 string gameResult = DetermineRoundOutcome(hand, dealerTotalValue);
                 Console.WriteLine(gameResult);
             }
+            
+            DisplayOptions.InsertDisplayDivider(1);
         }
 
         private string DetermineRoundOutcome(Hand hand, int dealerTotalValue)

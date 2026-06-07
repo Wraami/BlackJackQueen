@@ -65,6 +65,7 @@ namespace BlackJackQueen.Presentation.Parsers
                     return true;
 
                 case "N":
+                    DisplayOptions.InsertDisplayDivider();
                     Console.WriteLine(UIMessages.LeavingMessage);
                     return false;
 

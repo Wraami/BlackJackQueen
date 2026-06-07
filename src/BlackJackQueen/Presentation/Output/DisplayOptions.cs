@@ -27,8 +27,15 @@ namespace BlackJackQueen.Presentation.Output
             Console.WriteLine(UIMessages.CounterStarterMessage);
             Console.WriteLine(UIMessages.WelcomeBasicStrategyPrompt);
             Console.WriteLine(UIMessages.WelcomeTrueCountPrompt);
-
-
+        }
+        
+        //TODO: implement a more robust divider that can be used to break up different logical sections of the game, potentially use some ASCII to make this more visually appealing :)
+        public static void InsertDisplayDivider(int? displayDividerAmount = 1)
+        {
+            for (int i = 0; i < displayDividerAmount; i++)
+            {
+                Console.WriteLine();
+            }
         }
     }
 }
